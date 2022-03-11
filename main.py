@@ -1,5 +1,6 @@
 import requests_html
 import pandas as pd
+import openpyxl
 
 
 
@@ -45,6 +46,8 @@ def pok_power_df():
     power_table = df.sort_values(by='Power', ascending=False)
     final_table = power_table.drop_duplicates()
 
+    with pd.ExcelWriter("final_table.xlsx") as writer:
+        final_table.to_excel(writer)
 
     return print(final_table)
 
@@ -54,9 +57,11 @@ if __name__ == '__main__':
         print("opening file")
         df = pd.DataFrame(output)
         df["Power"] = 0
-        print ("create power table")
+        print ("create power tableed")
         pok_power_df()
         print("table print")
+
+
 
     except:
         print("Let's start scraping")
@@ -72,3 +77,4 @@ if __name__ == '__main__':
         df.to_pickle("pok_file.pkl")
         df["Power"] = 0
         pok_power_df()
+
